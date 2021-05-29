@@ -10,8 +10,7 @@ async def scan_regularly(ctx):
 
     async with aiohttp.request(
             'POST',
-            # f'{ctx["config"].server_hostname}/api/devices/from_scan',
-            f'{ctx["config"].server_hostname}/devices/from_scan',
+            f'{ctx["config"].server_hostname}/api/devices/from_scan',
             json={
                 'devices': [device.serialize() for device in scanned_devices],
                 'token': ctx['config'].token,
@@ -26,6 +25,5 @@ async def startup(ctx):
 
 
 class WorkerSettings:
-    # cron_jobs = [cron(scan_regularly, minute=0)]
-    cron_jobs = [cron(scan_regularly, second={0, 10, 20, 30, 40, 50})]
+    cron_jobs = [cron(scan_regularly, hour=0)]  # noqa
     on_startup = startup
