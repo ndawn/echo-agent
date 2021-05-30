@@ -3,14 +3,9 @@
     "22": "ssh",
     "23": "telnet",
     "80": "http",
-    "443": "https",
-    "5900": "vnc",
-    "5901": "vnc",
-    "5902": "vnc",
-    "5903": "vnc"
+    "443": "https"
   },
-  "db_url": "sqlite://db.sqlite3",
   "subnet": "192.168.0.0/24",
   "token": "123",
-  "server_hostname": "http://127.0.0.1:8000"
+  "server_hostname": "127.0.0.1"
 }

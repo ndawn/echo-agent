@@ -11,4 +11,4 @@ RUN service cron start
 
 RUN pip install -r requirements.txt
 
-CMD ["/bin/sh", "echo_agent.app:app", "--host", "0.0.0.0"]
+CMD ["/bin/sh", "echo_agent.app:app", "--host", "0.0.0.0", "--port", "11007"]
