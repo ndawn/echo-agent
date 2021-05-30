@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN apt-get update
-RUN apt-get install cron -y
+RUN apt-get install libpcap0.8 cron -y
 
 RUN service cron start
 

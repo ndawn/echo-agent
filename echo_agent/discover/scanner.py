@@ -151,7 +151,7 @@ class SubnetScanner:
                 )
 
             if (answer is not None) and (answer.haslayer(TCP)) and (answer.getlayer(TCP).flags == 0x12):
-                device.ports.append((config.ports[port], port))  # noqa
+                device.ports.append((config.ports[str(port)], port))  # noqa
 
                 sr1(
                     IP(dst=device_ip_string) / TCP(sport=self._source_port, dport=port, flags='R'),
