@@ -9,6 +9,8 @@
     "5902": "vnc",
     "5903": "vnc"
   },
+  "agent_port": 11007,
+  "db_url": "sqlite://db.sqlite3",
   "subnet": "192.168.0.0/24",
   "token": "123",
   "server_hostname": "http://127.0.0.1:8000"

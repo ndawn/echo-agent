@@ -8,14 +8,17 @@ from echo_agent.discover.scanner import AsyncScanner
 async def scan_regularly(ctx):
     scanned_devices = await ctx['scanner'].scan()
 
-    async with aiohttp.request(
-            'POST',
-            f'{ctx["config"].server_hostname}/api/devices/from_scan',
-            json={
-                'devices': [device.serialize() for device in scanned_devices],
-                'token': ctx['config'].token,
-            }
-    ):
+    try:
+        async with aiohttp.request(
+                'POST',
+                f'{ctx["config"].server_hostname}/api/devices/from_scan',
+                json={
+                    'devices': [device.serialize() for device in scanned_devices],
+                    'token': ctx['config'].token,
+                }
+        ):
+            pass
+    except:  # noqa
         pass
 
 

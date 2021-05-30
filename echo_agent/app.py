@@ -15,4 +15,5 @@ app.include_router(router)
 register_tortoise(
     app,
     db_url=config.db_url,  # noqa
+    modules={'models': ['echo_agent.models']},
 )

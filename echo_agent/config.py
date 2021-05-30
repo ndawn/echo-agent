@@ -7,7 +7,9 @@ import ujson
 # subnet
 # token
 # server_hostname
-# database_url
+# agent_port
+# db_url
+# ports
 
 
 DYNAMIC_CONFIG_FILE_PATH = 'config.json'
