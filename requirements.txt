@@ -4,6 +4,7 @@ fastapi==0.63.0
 paramiko==2.7.2
 pydantic==1.8.1
 python-crontab==2.5.1
+requests~=2.25
 scapy==2.4.5
 tortoise-orm==0.17.2
 ujson==3.2.0
