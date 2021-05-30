@@ -1,13 +1,12 @@
+import json
 import os.path
 
-import ujson
 
 
 # DYNAMIC PARAMS:
 # subnet
 # token
 # server_hostname
-# agent_port
 # db_url
 # ports
 
@@ -26,4 +25,4 @@ class Config:
 
     def __init__(self):
         with open(os.path.join(os.path.dirname(__file__), DYNAMIC_CONFIG_FILE_PATH)) as dynamic:
-            self.__dict__.update(ujson.load(dynamic))
+            self.__dict__.update(json.load(dynamic))

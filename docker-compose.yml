@@ -2,16 +2,8 @@ services:
   agent:
     container_name: echo_agent
     build: ./
-    command: /bin/sh run.sh
+    command: uvicorn echo_agent.app:app --host 0.0.0.0 --port 11007
     stdin_open: true
     tty: true
-    network_mode: host
-    depends_on:
-      - redis
-    restart: always
-
-  redis:
-    container_name: echo_agent_redis
-    image: redis:alpine
     network_mode: host
     restart: always
