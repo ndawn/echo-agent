@@ -15,7 +15,7 @@ def perform_scan():
             f'http://{config.server_hostname}/api/devices/from_scan',  # noqa
             json={
                 'devices': [device.serialize() for device in scanned_devices],
-                'token': config.token,  # noqa
+                'agent_token': config.token,  # noqa
             },
         )
     except:  # noqa
