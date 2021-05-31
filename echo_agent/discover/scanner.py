@@ -2,10 +2,11 @@ from dataclasses import dataclass
 from ipaddress import IPv4Address, IPv4Network
 import logging
 from math import ceil
+import socket
+import struct
 from threading import Thread
 from typing import Optional, Union
 
-from scapy.config import conf as scapy_config
 from scapy.layers.l2 import ARP, Ether, srp1
 from scapy.layers.inet import IP, TCP, sr1
 from scapy.volatile import RandShort
@@ -53,11 +54,7 @@ class SubnetScanner:
     }
 
     def __init__(self, network_cidr: str, threads=5):
-        try:
-            self._gateway_address = scapy_config.route.route('0.0.0.0')[2]
-        except IndexError:
-            self._gateway_address = None
-
+        self._gateway_address = SubnetScanner.get_default_gateway()
         self._threads = threads
         self.devices = []
         self.network = IPv4Network(network_cidr)
@@ -158,3 +155,13 @@ class SubnetScanner:
                     verbose=0,
                     timeout=0,
                 )
+
+    @staticmethod
+    def get_default_gateway():
+        with open('/proc/net/route') as fh:
+            for line in fh:
+                fields = line.strip().split()
+                if fields[1] != '00000000' or not int(fields[3], 16) & 2:
+                    continue
+
+                return socket.inet_ntoa(struct.pack('<L', int(fields[2], 16)))
