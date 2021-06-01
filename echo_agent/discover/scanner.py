@@ -14,7 +14,7 @@ from scapy.volatile import RandShort
 from echo_agent.config import Config
 
 config = Config()
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 @dataclass
