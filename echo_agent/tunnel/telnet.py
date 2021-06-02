@@ -17,7 +17,12 @@ class TelnetTunnelManager(AsyncTunnelManager):
     async def on_connect(self, websocket: WebSocket, session: PyTunnelSession) -> None:
         client = Telnet()
         client.open(session.host, session.port)
-        client.write(f'{session.username}\n{session.password}'.encode())
+
+        if session.username:
+            client.write(f'{session.username}\n'.encode())
+
+        if session.password:
+            client.write(f'{session.password}\n'.encode())
 
         thread = threading.Thread(
             target=TelnetTunnelManager._create_channel_to_websocket_tunnel_task(client, websocket)

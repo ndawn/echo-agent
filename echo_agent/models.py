@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 from tortoise import Model, fields
 
@@ -7,16 +9,16 @@ class TunnelSession(Model):
     host = fields.CharField(max_length=64)
     port = fields.IntField()
     proto = fields.CharField(max_length=6)
-    username = fields.CharField(max_length=64)
-    password = fields.CharField(max_length=64)
+    username = fields.CharField(max_length=64, null=True)
+    password = fields.CharField(max_length=64, null=True)
 
 
 class PyTunnelSession(BaseModel):
     host: str
     port: int
     proto: str
-    username: str
-    password: str
+    username: Optional[str]
+    password: Optional[str]
 
     class Config:
         orm_mode = True
