@@ -12,7 +12,6 @@ class TunnelSession(Model):
 
 
 class PyTunnelSession(BaseModel):
-    sid: str
     host: str
     port: int
     proto: str

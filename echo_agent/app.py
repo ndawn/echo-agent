@@ -1,5 +1,6 @@
 from crontab import CronTab
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
 from echo_agent.config import Config
@@ -15,8 +16,17 @@ app.include_router(router)
 
 register_tortoise(
     app,
-    db_url="sqlite://db.sqlite3",
+    db_url='sqlite://db.sqlite3',
     modules={'models': ['echo_agent.models']},
+)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[config.server_hostname],  # noqa
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
 )
 
 
