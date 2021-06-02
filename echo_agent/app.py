@@ -23,7 +23,11 @@ register_tortoise(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[f'http://{config.server_hostname}', f'https://{config.server_hostname}'],  # noqa
+    allow_origins=[
+        f'http://{config.server_hostname}',  # noqa
+        f'https://{config.server_hostname}',  # noqa
+        config.server_hostname,  # noqa
+    ],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
