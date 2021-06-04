@@ -13,7 +13,9 @@ config = Config()
 logger = logging.getLogger('echo_agent_discover')
 
 
-def scan_continuously(interval=3600):
+def scan_continuously(periodicity=3600, tick_interval=10):
+    schedule.every(periodicity).seconds.do(perform_scan)
+
     cease_continuous_run = threading.Event()
 
     class ScheduleThread(threading.Thread):
@@ -21,7 +23,7 @@ def scan_continuously(interval=3600):
         def run(cls):
             while not cease_continuous_run.is_set():
                 schedule.run_pending()
-                time.sleep(interval)
+                time.sleep(tick_interval)
 
     continuous_thread = ScheduleThread()
     continuous_thread.start()

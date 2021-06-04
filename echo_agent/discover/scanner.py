@@ -104,7 +104,7 @@ class SubnetScanner:
                     ip=address,
                     mac=answer.src,
                     ports=[],
-                    is_gateway=address == self._gateway_address,
+                    is_gateway=str(address) == self._gateway_address,
                 )
             )
 
