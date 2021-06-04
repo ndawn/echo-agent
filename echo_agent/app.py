@@ -38,7 +38,7 @@ app.add_middleware(
 
 @app.on_event('startup')
 def setup_periodic_scan():
-    app.extra['cancel_discover_scheduling'] = scan_continuously(periodicity=60, tick_interval=5)
+    app.extra['cancel_discover_scheduling'] = scan_continuously()
 
 
 @app.on_event('shutdown')

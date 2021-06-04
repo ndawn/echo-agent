@@ -5,9 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN apt-get update
-RUN apt-get install libpcap0.8 cron -y
-
-RUN service cron start
+RUN apt-get install libpcap0.8 -y
 
 RUN pip install -r requirements.txt
 
