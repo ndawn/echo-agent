@@ -1,6 +1,9 @@
 import logging
+import threading
+import time
 
 import requests
+import schedule
 
 from echo_agent.config import Config
 from echo_agent.discover.scanner import SubnetScanner
@@ -8,6 +11,22 @@ from echo_agent.discover.scanner import SubnetScanner
 
 config = Config()
 logger = logging.getLogger('echo_agent_discover')
+
+
+def scan_continuously(interval=3600):
+    cease_continuous_run = threading.Event()
+
+    class ScheduleThread(threading.Thread):
+        @classmethod
+        def run(cls):
+            while not cease_continuous_run.is_set():
+                schedule.run_pending()
+                time.sleep(interval)
+
+    continuous_thread = ScheduleThread()
+    continuous_thread.start()
+
+    return cease_continuous_run
 
 
 def perform_scan():

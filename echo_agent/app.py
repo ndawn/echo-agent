@@ -1,9 +1,10 @@
-from crontab import CronTab
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import schedule
 from tortoise.contrib.fastapi import register_tortoise
 
 from echo_agent.config import Config
+from echo_agent.discover.run import perform_scan, scan_continuously
 from echo_agent.router import router
 
 
@@ -37,9 +38,12 @@ app.add_middleware(
 
 
 @app.on_event('startup')
-def ensure_periodic_scan():
-    with CronTab(tabfile='/etc/crontab') as cron:
-        cron.remove_all(comment='echo_agent_discover')
-        job = cron.new('python -m echo_agent.discover.run')
-        job.set_comment('echo_agent_discover')
-        job.every(5).minutes()
+def setup_periodic_scan():
+    schedule.every().hour.do(perform_scan)
+    app.extra['stop_discover'] = scan_continuously()
+
+
+@app.on_event('shutdown')
+def cancel_periodic_scan():
+    if 'stop_discover' in app.extra:
+        app.extra['stop_discover'].set()
