@@ -13,7 +13,9 @@ config = Config()
 logger = logging.getLogger('echo_agent_discover')
 
 
-def scan_continuously(periodicity=3600, tick_interval=10):
+def scan_continuously(periodicity=600, tick_interval=5):
+    perform_scan()
+
     schedule.every(periodicity).seconds.do(perform_scan)
 
     cease_continuous_run = threading.Event()
