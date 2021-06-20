@@ -7,7 +7,6 @@ python-crontab==2.5.1
 requests~=2.25
 scapy==2.4.5
 schedule~=1.1
-slowapi==0.1.4
 tortoise-orm==0.17.2
 ujson==3.2.0
 urllib3==1.26.4

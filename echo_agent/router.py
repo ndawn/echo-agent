@@ -4,10 +4,7 @@ from secrets import token_urlsafe
 
 from fastapi.background import BackgroundTasks
 from fastapi.exceptions import HTTPException
-from fastapi.requests import Request
 from fastapi.routing import APIRouter
-from slowapi import Limiter
-from slowapi.util import get_remote_address
 from starlette.routing import WebSocketRoute
 
 from echo_agent.config import Config
@@ -16,8 +13,6 @@ from echo_agent.models import PyTunnelSession, TunnelSession
 
 
 config = Config()
-
-limiter = Limiter(key_func=get_remote_address)
 
 router = APIRouter()
 
@@ -34,8 +29,7 @@ async def delete_tunnel_session(sid: str):
 
 
 @router.post('/tunnel/create', response_model=str)
-@limiter.limit('5/minute')
-async def create_tunnel_session(data: PyTunnelSession, background_tasks: BackgroundTasks, request: Request) -> str:
+async def create_tunnel_session(data: PyTunnelSession, background_tasks: BackgroundTasks) -> str:
     try:
         address = IPv4Address(data.host)
     except AddressValueError:
