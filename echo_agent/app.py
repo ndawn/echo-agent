@@ -1,16 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 from tortoise.contrib.fastapi import register_tortoise
 
 from echo_agent.config import Config
 from echo_agent.discover.run import scan_continuously
-from echo_agent.router import router
+from echo_agent.router import limiter, router
 
 
 config = Config()
 
 
 app = FastAPI()
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.include_router(router)
 
