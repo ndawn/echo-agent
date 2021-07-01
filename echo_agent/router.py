@@ -78,7 +78,7 @@ async def create_tunnel_session(data: PyTunnelSessionCreateIn, background_tasks:
                     host_credentials.username = data.username
 
                 if data.password_required:
-                    fernet = Fernet(config.secret)  # noqa
+                    fernet = Fernet(config.secret.encode())  # noqa
                     host_credentials.password = fernet.encrypt(data.password.encode())
             elif data.auth_method == AuthMethodEnum.PUBLIC_KEY.value:
                 host_credentials.public_key = data.public_key.encode()

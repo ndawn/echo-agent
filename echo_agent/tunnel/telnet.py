@@ -4,6 +4,7 @@ from socket import socket as Socket  # noqa
 from telnetlib import Telnet
 from typing import Callable
 
+from cryptography.fernet import Fernet
 from fastapi import WebSocket
 from starlette.websockets import WebSocketState
 
@@ -22,7 +23,10 @@ class TelnetTunnelManager(AsyncTunnelManager):
             client.write(f'{session.credentials.username}\n'.encode())
 
         if session.credentials.password:
-            client.write(f'{session.credentials.password}\n'.encode())
+            fernet = Fernet(config.secret.encode())  # noqa
+            password = fernet.decrypt(session.credentials.password)
+
+            client.write(password + b'\n')
 
         thread = threading.Thread(
             target=TelnetTunnelManager._create_channel_to_websocket_tunnel_task(client, websocket)

@@ -30,7 +30,7 @@ class SSHTunnelManager(AsyncTunnelManager):
             hostname=str(session.credentials.host),
             port=session.port,
             username=session.credentials.username,
-            password=Fernet(config.secret).decrypt(session.credentials.password).decode(),  # noqa
+            password=Fernet(config.secret.encode()).decrypt(session.credentials.password).decode(),  # noqa
         )
 
         channel = client.invoke_shell('xterm')
