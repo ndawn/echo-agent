@@ -50,7 +50,7 @@ def perform_scan():
         logger.debug(f'{request_data=}')
 
         response = requests.post(
-            f'http://{config.server_hostname}/api/devices/from_scan',  # noqa
+            f'http{"" if config.insecure else "s"}://{config.server_hostname}/api/devices/from_scan',  # noqa
             json=request_data,
         )
 

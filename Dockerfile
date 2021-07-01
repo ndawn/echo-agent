@@ -9,4 +9,4 @@ RUN apt-get install libpcap0.8 -y
 
 RUN pip install -r requirements.txt
 
-CMD ["/bin/sh", "echo_agent.app:app", "--host", "0.0.0.0", "--port", "11007"]
+CMD ["python3", "./echo_agent/app.py"]

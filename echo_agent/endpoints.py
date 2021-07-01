@@ -1,10 +1,11 @@
 from typing import Any
 
+import aiohttp
 from fastapi import WebSocket
 from starlette.endpoints import WebSocketEndpoint
 
 from echo_agent.models import PyTunnelSession, TunnelSession
-from echo_agent.tunnel import AsyncTunnelManager, ssh, telnet  #, vnc
+from echo_agent.tunnel import AsyncTunnelManager, ssh, telnet  # , vnc
 
 
 class TunnelEndpoint(WebSocketEndpoint):
@@ -19,22 +20,20 @@ class TunnelEndpoint(WebSocketEndpoint):
     manager: AsyncTunnelManager = None
 
     async def on_connect(self, websocket: WebSocket) -> None:
-        query_params = websocket.query_params
-
-        sid = query_params.get('sid')
+        sid = websocket.query_params.get('sid')
 
         if sid is None:
-            return await websocket.close(1007)
+            return await websocket.close(4401)
 
-        session = await TunnelSession.get_or_none(sid=sid)
+        session = await TunnelSession.get_or_none(sid=sid).prefetch_related('credentials')
 
         if session is None:
-            return await websocket.close(1007)
+            return await websocket.close(4401)
 
         session = PyTunnelSession.from_orm(session)
 
         if session.proto not in self.tunnel_managers:
-            return await websocket.close(1007)
+            return await websocket.close(4400)
 
         self.manager = self.tunnel_managers[session.proto]()
 

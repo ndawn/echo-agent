@@ -6,6 +6,9 @@
     "443": "https"
   },
   "subnet": "192.168.0.0/24",
+  "address": "192.168.0.100",
   "token": "123",
-  "server_hostname": "127.0.0.1"
+  "secret": "123",
+  "server_hostname": "127.0.0.1",
+  "insecure": false
 }

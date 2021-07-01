@@ -2,14 +2,19 @@ import asyncio
 import threading
 from typing import Callable
 
+from cryptography.fernet import Fernet
 from fastapi import WebSocket
 from paramiko import AutoAddPolicy
 from paramiko.channel import Channel
 from paramiko.client import SSHClient
 from starlette.websockets import WebSocketState
 
+from echo_agent.config import Config
 from echo_agent.models import PyTunnelSession
 from echo_agent.tunnel import AsyncTunnelManager
+
+
+config = Config()
 
 
 class SSHTunnelManager(AsyncTunnelManager):
@@ -22,10 +27,10 @@ class SSHTunnelManager(AsyncTunnelManager):
         client.set_missing_host_key_policy(AutoAddPolicy)
 
         client.connect(
-            hostname=session.host,
+            hostname=str(session.credentials.host),
             port=session.port,
-            username=session.username,
-            password=session.password,
+            username=session.credentials.username,
+            password=Fernet(config.secret).decrypt(session.credentials.password).decode(),  # noqa
         )
 
         channel = client.invoke_shell('xterm')

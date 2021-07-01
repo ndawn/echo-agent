@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
+import uvicorn
 
 from echo_agent.config import Config
 from echo_agent.discover.run import scan_continuously
@@ -45,3 +46,11 @@ def setup_periodic_scan():
 def cancel_periodic_scan():
     if 'cancel_discover_scheduling' in app.extra:
         app.extra['cancel_discover_scheduling'].set()
+
+
+if __name__ == '__main__':
+    uvicorn.run(
+        app,
+        host='0.0.0.0',
+        port=11007,
+    )

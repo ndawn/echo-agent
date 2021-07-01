@@ -2,13 +2,11 @@ from dataclasses import dataclass
 from ipaddress import IPv4Address, IPv4Network
 import logging
 from math import ceil
-import socket
-import struct
 from threading import Thread
 from typing import Optional, Union
 
 from scapy.layers.l2 import ARP, Ether, srp1
-from scapy.layers.inet import IP, TCP, sr1
+from scapy.layers.inet import IP, TCP, sr1, traceroute
 from scapy.volatile import RandShort
 
 from echo_agent.config import Config
@@ -158,10 +156,9 @@ class SubnetScanner:
 
     @staticmethod
     def get_default_gateway():
-        with open('/proc/net/route') as fh:
-            for line in fh:
-                fields = line.strip().split()
-                if fields[1] != '00000000' or not int(fields[3], 16) & 2:
-                    continue
+        ans, unans = traceroute(config.server_hostname, maxttl=1)  # noqa
 
-                return socket.inet_ntoa(struct.pack('<L', int(fields[2], 16)))
+        if not ans:
+            raise ValueError('Unable to find default gateway')
+
+        return ans[0].answer.src
