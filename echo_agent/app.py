@@ -49,10 +49,17 @@ def cancel_periodic_scan():
 
 
 if __name__ == '__main__':
+    if config.insecure:  # noqa
+        ssl_config = {}
+    else:
+        ssl_config = {
+            'ssl_keyfile': './ssl/key.pem',
+            'ssl_certfile': './ssl/cert.pem',
+        }
+
     uvicorn.run(
         app,
         host='0.0.0.0',
         port=11007,
-        ssl_keyfile='./ssl/key.pem',
-        ssl_certfile='./ssl/cert.pem',
+        **ssl_config,
     )
