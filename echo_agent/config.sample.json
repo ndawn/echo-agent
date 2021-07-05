@@ -7,6 +7,7 @@
   },
   "subnet": "192.168.0.0/24",
   "address": "192.168.0.100",
+  "gateway_address": "192.168.0.1",
   "token": "123",
   "secret": "123",
   "server_hostname": "127.0.0.1",

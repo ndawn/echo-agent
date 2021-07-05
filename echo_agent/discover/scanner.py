@@ -6,7 +6,7 @@ from threading import Thread
 from typing import Optional, Union
 
 from scapy.layers.l2 import ARP, Ether, srp1
-from scapy.layers.inet import IP, TCP, sr1, traceroute
+from scapy.layers.inet import IP, TCP, sr1
 from scapy.volatile import RandShort
 
 from echo_agent.config import Config
@@ -156,9 +156,4 @@ class SubnetScanner:
 
     @staticmethod
     def get_default_gateway():
-        ans, unans = traceroute(config.server_hostname, maxttl=1)  # noqa
-
-        if not ans:
-            raise ValueError('Unable to find default gateway')
-
-        return ans[0].answer.src
+        return config.gateway_address  # noqa

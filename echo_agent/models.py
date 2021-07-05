@@ -68,8 +68,8 @@ class PyTunnelSessionCreateIn(BaseModel):
     username: Optional[str]
     password: Optional[str]
     public_key: Optional[str]
-    username_required: bool
-    password_required: bool
+    username_required: Optional[bool]
+    password_required: Optional[bool]
 
     class Config:
         use_enum_values = True
