@@ -37,6 +37,7 @@ async def delete_tunnel_session(sid: str):
 
 @router.post('/tunnel/create', response_model=str)
 async def create_tunnel_session(data: PyTunnelSessionCreateIn, background_tasks: BackgroundTasks) -> str:
+    print(data.dict())
     try:
         address = IPv4Address(data.host)
     except AddressValueError:
