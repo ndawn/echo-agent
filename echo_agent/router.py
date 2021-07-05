@@ -67,10 +67,10 @@ async def create_tunnel_session(data: PyTunnelSessionCreateIn, background_tasks:
                 raise HTTPException(status_code=401, detail='No credentials provided')
 
             if (
-                (data.auth_method == AuthMethodEnum.PASSWORD.value and (
+                (data.auth_method == AuthMethodEnum.PASSWORD and (
                     (host_credentials.username is None and data.username_required)
                     or (host_credentials.password is None and data.password_required)
-                )) or (data.auth_method == AuthMethodEnum.PUBLIC_KEY.value and host_credentials.public_key is None)
+                )) or (data.auth_method == AuthMethodEnum.PUBLIC_KEY and host_credentials.public_key is None)
             ):
                 raise HTTPException(status_code=401, detail='No credentials provided')
 
