@@ -53,7 +53,7 @@ async def create_tunnel_session(data: PyTunnelSessionCreateIn, background_tasks:
             if response.status != 200:
                 raise HTTPException(status_code=401, detail='Access token is invalid or expired')
 
-            user: PyUser = await response.json()
+            user = PyUser(**await response.json())
 
             host_credentials = await HostCredentials.get_or_none(
                 owner_id=user.pk,
