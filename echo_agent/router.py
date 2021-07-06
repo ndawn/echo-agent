@@ -3,6 +3,7 @@ import asyncio
 from ipaddress import AddressValueError, IPv4Address, IPv4Network
 from secrets import token_urlsafe
 
+from cryptography.fernet import Fernet
 from fastapi.background import BackgroundTasks
 from fastapi.exceptions import HTTPException
 from fastapi.routing import APIRouter
