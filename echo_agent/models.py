@@ -37,9 +37,9 @@ class PyHostCredentials(BaseModel):
     owner_id: int
     host: IPv4Address
     port: int
-    username: str
-    password: bytes
-    public_key: bytes
+    username: Optional[str]
+    password: Optional[bytes]
+    public_key: Optional[bytes]
 
     class Config:
         orm_mode = True
